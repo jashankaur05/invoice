@@ -1,0 +1,18 @@
+<div class="flex align-items-center justify-content-between">
+    <div class="filter-styling">
+        <ng-container>
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input #filter pInputText type="text" (change)="onGlobalFilter.emit(filter.value)"
+                    placeholder="{{ 'header.searchKeyword'  }}" />
+            </span>
+            <span>
+                <ng-content select="[t-toolbar-left]"></ng-content>
+            </span>
+        </ng-container>
+    </div>
+    <div class="flex justify-content-start flex-wrap ui-button">
+        <ng-content select="[t-toolbar]"></ng-content>
+        <app-menu [items]="menuItems"></app-menu>
+    </div>
+</div>

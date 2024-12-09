@@ -1,0 +1,43 @@
+.text-danger {
+    color: #ff0000;
+}
+
+p-calendar.is-invalid {
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #f3031aa8;
+}
+
+.action-icon {
+    font-size: 1.5rem; /* Adjust icon size */
+    margin-right: 10px; /* Space between icons */
+    cursor: pointer; /* Make the icon clickable */
+    transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+.action-icon:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+.pi-pen-to-square {
+    color: #28a745; /* Success color for edit icon */
+}
+::ng-deep.p-sort-icon {
+    transition: transform 0.2s ease;
+  }
+  
+ ::ng-deep .p-highlight .p-sort-icon {
+    transform: rotate(180deg); /* Rotate for descending order */
+  }
+  
+ ::ng-deep .p-highlight-desc .p-sort-icon {
+    transform: rotate(0deg); /* No rotation for ascending order */
+  }
+  ::ng-deep .table > :not(caption) > * > * {
+    background-color: transparent;
+}
+::ng-deep .table-wrap tr > td:nth-child(3) {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}

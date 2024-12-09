@@ -1,0 +1,24 @@
+<div class="p-dialog">
+    <!--HEADER-->
+    <div class="p-dialog-header">
+        <span class="text-xl font-bold">{{ title }}</span>
+        <ng-content select="[d-title]"></ng-content>
+        <div class="p-dialog-header-icons">
+            <ng-content select="[d-header]"></ng-content>
+            <button type="button" class="p-dialog-header-icon p-dialog-header-close p-link" (click)="onClose()" pRipple>
+                <i class="pi pi-times"></i>
+            </button>
+        </div>
+    </div>
+    <!--BODY-->
+    <div class="p-dialog-content">
+        <ng-content select="[d-body]"></ng-content>
+    </div>
+    <!--FOOTER-->
+    <ng-container *ngIf="showFooter">
+        <div class="p-dialog-footer">
+            <app-menu *ngIf="menuItems" [layoutAlign]="'end'" [items]="menuItems"></app-menu>
+            <ng-content select="[d-footer]"></ng-content>
+        </div>
+    </ng-container>
+</div>

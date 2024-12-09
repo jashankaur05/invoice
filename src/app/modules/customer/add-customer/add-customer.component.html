@@ -1,0 +1,93 @@
+<ngx-loading [show]="isLoading"></ngx-loading>
+<form [formGroup]="customerDetailsForm" class="p-4 border rounded shadow bg-light" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="customerName" class="form-label">Customer Name<span class="text-danger">*</span> </label>
+            <input formControlName="customerName" id="customerName" class="form-control"
+                [ngClass]="{ 'is-invalid': customerDetailsForm.get('customerName')?.touched && customerDetailsForm.get('customerName')?.invalid }"
+                placeholder="Enter Customer Name" maxlength="50" />
+                    <div *ngIf="customerDetailsForm.get('customerName')?.errors?.['required']" class="invalid-feedback">
+                      Customer Name is required.
+                    </div>
+                    <div *ngIf="customerDetailsForm.get('customerName')?.errors?.['minlength']" class="invalid-feedback">
+                      Customer Name should have at least 3 characters.
+                    </div>
+        </div>
+
+        <div class="col-md-4">
+            <label for="customerAddress" class="form-label">Customer Address<span class="text-danger">*</span></label>
+            <input formControlName="customerAddress" id="customerAddress" class="form-control"
+                [ngClass]="{ 'is-invalid': customerDetailsForm.get('customerAddress')?.touched && customerDetailsForm.get('customerAddress')?.invalid }"
+                placeholder="Enter Customer Address" maxlength="200"/>
+            <div *ngIf="customerDetailsForm.get('customerAddress')?.touched && customerDetailsForm.get('customerAddress')?.invalid"
+                class="invalid-feedback">
+                Customer Address is required.
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label for="customerGSTNo" class="form-label">Customer GST No<span class="text-danger">*</span></label>
+            <input formControlName="customerGSTNo" id="customerGSTNo" class="form-control"
+                   [ngClass]="{ 'is-invalid': customerDetailsForm.get('customerGSTNo')?.touched && customerDetailsForm.get('customerGSTNo')?.invalid }"
+                   placeholder="Enter GST No" maxlength="15"/>
+            <div *ngIf="customerDetailsForm.get('customerGSTNo')?.touched && customerDetailsForm.get('customerGSTNo')?.hasError('required')"
+                 class="invalid-feedback">
+                Customer GST No is required.
+            </div>
+            <div *ngIf="customerDetailsForm.get('customerGSTNo')?.errors?.['minlength']"
+                 class="invalid-feedback">
+                Customer GST No. should have at most 15 characters
+            </div>
+        </div>
+        
+
+        <div class="col-md-12 mt-3 d-flex justify-content-end">
+            <button type="reset" class="btn btn-danger me-3" *ngIf="isEdit" (click)="cancelButton()">Cancel</button>
+            <button type="button" class="btn btn-info me-3"(click)="resetForm()">Reset</button>
+            <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update' : 'Save' }}  Customer</button>
+        </div>
+    </div>
+</form>
+
+<div class="row mt-5" *ngIf="customers?.length > 0">
+
+    <p-table #dataTable class="table table-striped table-hover table-fixed " [columns]="columns" [value]="customers" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{'min-width': '50rem'}"[globalFilterFields]="['customerName','customerAddress','customerGSTNo']" >
+        <!--HEADER-->
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex text-end ">
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dataTable.filterGlobal($any($event.target).value, 'contains')" [(ngModel)]="filterTableValue" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="width:30%"> 
+                    {{ col.header }}
+                    <p-sortIcon [field]="col.field"  ></p-sortIcon> 
+                </th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+    
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{ rowData[col.field] || '-' }} <!-- Display each field dynamically -->
+                </td>
+                <td>
+                    <i class="pi pi-pen-to-square action-icon" (click)="setCompanyDetails(rowData)" title="Edit Company"></i>
+                </td>
+            </tr>
+        </ng-template>
+           <!-- EMPTY MESSAGE -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="9" style="text-align: center;">No records found.</td>
+        </tr>
+    </ng-template>
+    </p-table>
+   
+</div>

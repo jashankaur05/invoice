@@ -1,0 +1,11 @@
+.fileupload-row {
+    display: flex;
+    align-items: center;
+    border: 1px dashed #e2e8f0;
+    margin: 10px;
+}
+.fileupload-row>div {
+    flex: 1 1 auto;
+    width: 100%;
+    margin: 10px;
+}

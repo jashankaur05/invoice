@@ -1,0 +1,30 @@
+.pointer-none {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.text-danger {
+    color: #ff0000;
+}
+.is-invalid {
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    border-color: #ff0000 !important;
+}
+p-dropdown .is-invalid {
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    border-color: #f3031aa8 !important;
+}
+
+// ::ng-deep .p-dropdown:not(.p-disabled).p-focus{
+//     border:rgb(167, 162, 162) !important;
+// }
+// ::ng-deep .p-dropdown:not(.p-disabled):hover {
+//     border-color:none !important;
+// }
+/* Remove spinner for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

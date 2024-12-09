@@ -1,0 +1,82 @@
+<ngx-loading [show]="isLoading"></ngx-loading>
+
+<!-- Financial Year Filter -->
+<div class="mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <button 
+            class="btn btn-primary  me-2" 
+            [class.active]="invoiceType === '2'" 
+            (click)="setInvoiceType('2')">
+            GST Invoice
+          </button>
+            <button 
+                class="btn btn-primary" 
+                [class.active]="invoiceType === '1'" 
+                (click)="setInvoiceType('1')">
+                Export Invoice
+            </button>
+           
+        </div>
+        
+    </div>
+</div>
+<!--Table-->
+<div [class.disabled]="disabled">
+    <p-table #dataTable class="table table-striped table-hover" [columns]="columns" dataKey="clientGSTNo"
+        [value]="filteredInvoiceData" [resizableColumns]="resizableColumns" [globalFilterFields]="globalFilterFields"
+        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+        <!--HEADER-->
+        <ng-template pTemplate="header">
+            <tr>
+                <ng-container *ngFor="let col of columns" >
+                    <th [pSortableColumn]="col.field">
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field"  ></p-sortIcon> 
+                    </th>
+                </ng-container>
+                <th >Actions</th>
+            </tr>
+        </ng-template>
+
+        <!--BODY-->
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td *ngFor="let col of columns" [ngClass]="{'text-start': (col.field === 'amount' || col.field === 'totalAmount')}">
+                    <!-- Apply number pipe for 2 decimal places only to 'amount' -->
+                     <!-- {{rowData[col.field]}} -->
+                     <!-- <ng-container *ngIf="col.visible"> -->
+                    {{ (col.field === 'amount' || col.field === 'totalAmount') ? (rowData[col.field] | number:'1.2-2') : (rowData[col.field] || '-') }}
+                    <!-- </ng-container> -->
+                </td>
+
+                <td>
+                    <i class="pi pi-eye action-icon" (click)="viewInvoice(rowData)" title="View Invoice"></i>
+
+                    <!-- Edit Button: Enabled if invoice is not locked, disabled otherwise -->
+                    <i class="pi pi-pen-to-square action-icon"  (click)="!rowData.locked && editInvoice(rowData)" 
+                        [ngClass]="{'disabled-icon': rowData.locked}" title="Edit Invoice"></i>
+
+                    <!-- Lock/Unlock Button -->
+                    <i *ngIf="!rowData.locked" class="pi pi-lock-open action-icon" (click)="lockInvoice(rowData)"
+                        title="Lock Invoice"></i>
+                    <i *ngIf="rowData.locked" class="pi pi-lock action-icon" (click)="unlockInvoice(rowData)"
+                        title="Unlock Invoice"></i>
+                </td>
+
+            </tr>
+        </ng-template>
+
+        <!-- EMPTY MESSAGE -->
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9" style="text-align: center;">No records found.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loading">
+            <div class="font-bold mb-5 text-4xl z-1">
+                <p-progressSpinner animationDuration=".5s"></p-progressSpinner>
+            </div>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,60 @@
+<span class="px-2 py-2" style="flex: 1">
+  <!-- General column filter for non-Tagged, non-Select, and non-Boolean types -->
+  <p-columnFilter
+    customColumnFilter
+    *ngIf="!(column.type === columnType.Tagged || column.type === columnType.Select || getColumnType() === 'boolean')"
+    display="menu"
+    type="{{ getColumnType() }}"
+    [field]="column.name"
+    [matchModeOptions]="matchModeOptions"
+    [showMatchModes]="showMatchModes"
+    [matchMode]="customFilterName"
+    [showAddButton]="showAddRuleButton"
+    [showOperator]="showFilterOperator"
+    [showClearButton]="showClearButton"
+    placeholder="{{ 'column.label'  }}"
+  ></p-columnFilter>
+
+  <!-- Tagged,Select and boolean column filter -->
+  <p-columnFilter
+    customColumnFilter
+    *ngIf="column.type === columnType.Tagged || column.type === columnType.Select || column.type === columnType.Boolean"
+    display="menu"
+    type="{{ getColumnType() }}"
+    [field]="column.name"
+    [matchModeOptions]="matchModeOptions"
+    [showClearButton]="showClearButton"
+    [showMatchModes]="showMatchModes"
+    [matchMode]="customFilterName"
+    [showAddButton]="showAddRuleButton"
+    [showOperator]="showFilterOperator"
+  >
+    <ng-template pTemplate="filter" let-label let-value let-filterCallback="filterCallback">
+      <p-multiSelect
+        *ngIf="getColumnType() !== 'boolean'; else booleanDropdown"
+        [ngModel]="value"
+        optionLabel="label"
+        optionValue="value"
+        [filter]="filterDropdown"
+        [options]="filterOptions"
+        placeholder="{{ 'menuButton.select'  }}"
+        (onChange)="filterChanged($event, filterCallback)"
+        (onClear)="clearFilter($event, filterCallback)"
+      >
+        <ng-template *ngIf="column.type === columnType.Tagged" let-option pTemplate="item">
+          <p-tag [value]="option.value" [severity]="column.tagOptions[option.label]"></p-tag>
+        </ng-template>
+      </p-multiSelect>
+
+      <ng-template #booleanDropdown>
+        <p-dropdown
+          *ngIf="getColumnType() === 'boolean'"
+          [options]="filterOptions"
+          placeholder="{{ 'menuButton.select'  }}"
+          (onChange)="filterChanged($event, filterCallback)"
+          (onClear)="clearFilter($event, filterCallback)"
+        ></p-dropdown>
+      </ng-template>
+    </ng-template>
+  </p-columnFilter>
+</span>

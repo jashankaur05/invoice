@@ -1,0 +1,145 @@
+<ngx-loading [show]="isLoading"></ngx-loading>
+<div class="row">
+    <div class="col-md-12 text-end">
+        <button (click)="generatePDF()" class="btn btn-primary">Download PDF</button>
+    </div>
+</div>
+<div class="container p-4 border rounded shadow w-50 bg-image-logo bg-light" id="invoice">
+    <div class="row invoice-header text-center">
+        <div class="col-md-12">
+            <h3 class="fw-700">{{ companyData?.companyName }}</h3>
+            <!-- <p class="fw-600 mb-0">Building Future with Innovation</p> -->
+            <p class="mt-3 mb-0 fs-12">{{ companyData?.companyAddress }}</p>
+            <!-- <p>GST No. - {{ companyData?.companyGSTNo }}</p> -->
+        </div>
+    </div>
+<div></div>
+    <div class="row">
+        <h4 class="text-center text-decoration-underline fw-15 fw-700">{{ invoiceData?.invoiceType === "2" ? 'GST Invoice'
+            : invoiceData?.invoiceType === "1" ? 'Export Invoice' : '' }}</h4>
+        <div class="col-md-12 d-flex justify-content-between mt-5">
+            <p class="fw-500">Date: {{ (invoiceData?.invoiceDate | date:'MMMM d, y') || '' }}</p>
+            <p class="fw-500">Invoice # {{ (invoiceData?.invoiceType === "1" ? companyData?.exportInvoicePrefix :
+                companyData?.gstInvoicePrefix) + invoiceData?.invoiceNumber|| '' }}</p>
+        </div>
+    </div>
+
+    <div class="row invoice-details text-end">
+        <div class="col-md-12">
+            <p><strong>Bill To:</strong> {{ customers?.customerName || '' }}<br>
+                {{ customers?.customerAddress || '' }}</p>
+
+            <!-- <p>
+                <strong>
+                    GSTIN: {{ customers?.customerGSTNo || '' }}
+                </strong>
+            </p> -->
+        </div>
+    </div>
+
+    <table class="table table-light table-bordered">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <!-- <th>SAC Code</th> -->
+                <th class="text-end" style="width: 189px;">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr *ngFor="let item of invoiceData?.items">
+                <td>{{ item.description }}</td>
+                <td>{{ item.sacCode }}</td>
+                <td class="text-end">
+                    {{
+                    item.amount
+                    ? (
+                    invoiceData?.currency === 'USD ($)'
+                    ? '$'
+                    : invoiceData?.currency === 'GBP (£)'
+                    ? '£'
+                    : '₹'
+                    ) + (item.amount | number:'1.0-0')
+                    : ''
+                    }}
+                </td>
+            </tr> -->
+            <tr *ngFor="let item of emptyRows; let i = index">
+                <td>{{ invoiceData?.items[i]?.description || '' }}</td>
+                <!-- <td>{{ invoiceData?.items[i]?.sacCode || '' }}</td> -->
+                <td class="text-end" style="width: 189px;" >
+                    {{
+                    invoiceData?.items[i]?.amount
+                    ? (invoiceData?.currency === 'USD ($)' ? '$' : invoiceData?.currency === 'GBP (£)' ? '£' : '₹') +
+                    (invoiceData?.items[i]?.amount | number: '1.2-2')
+                    : ''
+                    }}
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="1" class="text-end fs-italic">
+                    <!-- <span class="fs-15"
+                        [innerHTML]="invoiceData?.gst ? 'GST @ ' + invoiceData?.gst + '%' : '<strong>Tax Not Applicable</strong><br />' + (companyData?.lut || '')"></span> -->
+                        <span class="fs-15"
+                        [innerHTML]="invoiceData?.gst ? 'GST @ ' + invoiceData?.gst + '%' : '<strong>Tax Not Applicable</strong><br />'"></span>
+                <td class="text-end">
+                    {{
+                    gstAmount
+                    ? (
+                    invoiceData?.currency === 'USD ($)'
+                    ? '$'
+                    : invoiceData?.currency === 'GBP (£)'
+                    ? '£'
+                    : '₹'
+                    ) + (gstAmount | number:'1.2-2')
+                    : ''
+                    }}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" class="text-end"><strong>Total</strong></td>
+                <td class="text-end"><strong>{{ invoiceData?.currency === 'USD ($)' ? '$' : invoiceData?.currency ===
+                        'GBP (£)' ? '£' :
+                        '₹' }} {{ ((totalAmount + gstAmount) || '0.00' | number:'1.2-2') || '' }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="fs-italic">
+        <strong>
+            {{
+            invoiceData?.currency === 'USD ($)'
+            ? 'USD'
+            : invoiceData?.currency === 'GBP (£)'
+            ? 'GBP'
+            : 'Rs'
+            }}-
+            {{ amountInWords }}</strong>
+    </p>
+
+    <div class="row mt-4">
+        <div class="col-md-12 text-end">
+            <!-- <p><strong>Anil Channa</strong></p> -->
+            <p>Authorized Signatory</p>
+        </div>
+    </div>
+
+    <!-- <div class="row bank-details text-center">
+        <div class="col-md-12">
+            <p class="mb-0"><strong>Our Bank Details:</strong></p>
+            <p class="mb-0">{{ companyData?.companyBank }}</p>
+            <p class="mb-0"> Bank Account No: {{ companyData?.companyBankAccount }}</p>
+            <p class="mb-0"> IFSC Code – {{ companyData?.companyBankIfscCode }}</p>
+            <p class="mb-0"> Swift ID - {{ companyData?.companyBankSwiftId }}</p>
+        </div>
+    </div> -->
+
+    <!-- <div class="row">
+        <div class="col-md-12 d-flex justify-content-between">
+            <span class="fs-12 fw-500">{{ companyData?.companyWebsite }}</span>
+            <span class="fs-12 fw-500">{{ companyData?.companyEmail }}</span>
+        </div>
+    </div> -->
+
+
+</div>

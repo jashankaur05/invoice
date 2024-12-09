@@ -1,0 +1,74 @@
+.invoice-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.invoice-header {
+    margin-bottom: 10px;
+}
+.invoice-details {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.text-right {
+    text-align: right;
+}
+
+.bank-details {
+    margin-top: 20px;
+}
+.fw-15 {
+    font-size: 1.5rem;
+}
+.bg-image-logo {
+    position: relative;
+    z-index: 1;
+
+    &:after {
+        content: "";
+        // background-image: url('/assets/images/softwiz-logo.png');
+        background-position: center;
+        background-size: 80%;
+        background-repeat: no-repeat;
+        opacity: 0.1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: -1;
+    }
+}
+
+table {
+    border-color: grey;
+    tr {
+        td, th {
+            background-color: transparent;
+            height: 30px;
+        }
+    }
+} 
+
+.fw-700 {
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top:25px;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-15 {
+    font-size: 15px;
+}
+.fw-500 {
+    font-weight: 500;
+}
+.fs-italic {
+    font-style: italic;
+}

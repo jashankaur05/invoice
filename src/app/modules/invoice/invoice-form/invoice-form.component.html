@@ -1,0 +1,145 @@
+<ngx-loading [show]="isLoading"></ngx-loading>
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow bg-light">
+  <!-- Invoice Details Section -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input class="form-check-input me-2" type="radio" formControlName="invoiceType" value="1" id="exportInvoice"
+        (change)="toggleInvoiceType('exportInvoice')" >
+      <label class="form-check-label me-3" for="exportInvoice">
+        Export Invoice
+      </label>
+      <input class="form-check-input me-2" type="radio" formControlName="invoiceType" value="2" id="gstInvoice"
+        (change)="toggleInvoiceType('gstInvoice')"     >
+      <label class="form-check-label" for="gstInvoice">
+        GST Invoice
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mt-3 d-flex flex-column">
+      <label for="invoiceDate" class="form-label">Invoice Date<span class="text-danger">*</span></label>
+      <p-calendar formControlName="invoiceDate" [minDate]="minInvoiceDate"
+        [maxDate]="maxInvoiceDate" [defaultDate]="viewDate" placeholder="Select Invoice Date"
+        [ngClass]="{ 'is-invalid': invoiceForm.get('invoiceDate')?.touched && invoiceForm.get('invoiceDate')?.invalid }" />
+      <!-- <div *ngIf="invoiceForm.get('invoiceDate')?.touched && invoiceForm.get('invoiceDate')?.invalid"
+        class="invalid-feedback">
+        Invoice date is required.
+      </div> -->
+    </div>
+    <div class="col-md-3 mt-3 d-flex flex-column">
+      <label for="clientId" class="form-label">Select Customer<span class="text-danger">*</span></label>
+      <p-dropdown [options]="customers" formControlName="clientId" optionLabel="customerName" optionValue="key"
+        [filter]="true" filterBy="customerName" placeholder="Select Customer"
+        [ngClass]="{ 'is-invalid': invoiceForm.get('clientId')?.touched && invoiceForm.get('clientId')?.invalid }">
+        <ng-template pTemplate="selectedItem" let-selectedOption>
+          <div class="d-flex align-items-center gap-2">
+            {{ selectedOption.customerName }}
+          </div>
+        </ng-template>
+        <ng-template let-customer pTemplate="item">
+          <div class="d-flex align-items-center gap-2">
+            {{ customer.customerName }}
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <!-- <div *ngIf="invoiceForm.get('clientId')?.touched && invoiceForm.get('clientId')?.invalid"
+        class="invalid-feedback">
+        Customer name is required.
+      </div> -->
+    </div>
+
+    <!-- GST Section -->
+    <!-- <div class="row mb-4"> -->
+      <div class="col-md-3 mt-3">
+        <label for="currency" class="form-label">Select Currency<span class="text-danger">*</span></label>
+        <select class="form-select" id="currency" formControlName="currency"  placeholder="Select Currency" [ngClass]="{ 'is-invalid': invoiceForm.get('currency')?.touched && invoiceForm.get('currency')?.invalid }" placeholder="select currency">
+          <option value="" disabled selected >Select Currency</option>
+          <ng-container *ngIf="invoiceForm.get('invoiceType')?.value === '2'">
+            <option *ngFor="let currency of GSTCurrency" [value]="currency">{{ currency }}</option>
+          </ng-container>
+        
+          <!-- Show all other currency options if invoiceType is not '1' -->
+          <ng-container *ngIf="invoiceForm.get('invoiceType')?.value === '1'">
+            <option *ngFor="let currency of currencies" [value]="currency">{{ currency }}</option>
+          </ng-container>
+        </select>
+        <!-- <div *ngIf="invoiceForm.get('currency')?.touched && invoiceForm.get('currency')?.invalid"
+        class="invalid-feedback">
+       Currency is required.
+      </div> -->
+      </div>
+      <div class="col-md-3 mt-3" *ngIf="isGstInvoice">
+        <label for="gst" class="form-label">GST % <span class="text-danger">*</span></label>
+        <input formControlName="gst" type="number" id="gst" class="form-control"
+          [ngClass]="{ 'is-invalid': invoiceForm.get('gst')?.touched && invoiceForm.get('gst')?.invalid }"
+          placeholder="Enter GST percentage" min="0" />
+          <div *ngIf="gst.touched && gst.invalid" class="invalid-feedback">
+            <small *ngIf="gst.errors?.['required']">GST percentage is required.</small>
+            <small *ngIf="gst.errors?.['min']">GST percentage cannot be less than 0.</small>
+            <small *ngIf="gst.errors?.['max']">GST percentage must not exceed 3.</small>
+            <small *ngIf="gst.errors?.['pattern']">GST must have up to 2 decimal places.</small>
+          </div>
+        <!-- <div *ngIf="invoiceForm.get('gst')?.touched && invoiceForm.get('gst')?.invalid" class="invalid-feedback">
+          Please enter a valid GST percentage (0-100).
+        </div> -->
+      </div>
+    <!-- </div> -->
+  </div>
+
+
+  <!-- Items Section -->
+  <div class="my-3">
+    <h5>Items</h5>
+    <div formArrayName="items" class="p-3 mb-3 bg-white border rounded">
+      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="row mb-3 align-items-end">
+        <div class="col-md-4">
+          <label for="description-{{i}}" class="form-label">Description<span class="text-danger">*</span></label>
+          <input formControlName="description" id="description-{{i}}" class="form-control"
+            [ngClass]="{ 'is-invalid': item.get('description')?.touched && item.get('description')?.invalid }"
+            placeholder="Enter item description" maxlength="200"/>
+          <!-- <div *ngIf="item.get('description')?.touched && item.get('description')?.invalid" class="invalid-feedback">
+            Description is required.
+          </div> -->
+        </div>
+        <div class="col-md-3">
+          <label for="sacCode-{{i}}" class="form-label">SAC Code <span class="text-danger">*</span></label>
+          <input formControlName="sacCode" id="sacCode-{{i}}" class="form-control"
+            [ngClass]="{ 'is-invalid': item.get('sacCode')?.touched && item.get('sacCode')?.invalid }"
+            placeholder="SAC Code" maxlength="6"/>
+          <!-- <div *ngIf="item.get('sacCode')?.touched && item.get('sacCode')?.invalid" class="invalid-feedback">
+            SAC code is required.
+          </div> -->
+          <div *ngIf="item.get('sacCode')?.errors?.['minlength']"
+          class="invalid-feedback">
+               Customer GST No. should have at most 6 characters
+     </div>
+        </div>
+        <div class="col-md-3">
+          <label for="amount-{{i}}" class="form-label">Amount<span class="text-danger">*</span></label>
+          <input formControlName="amount" id="amount-{{i}}" type="text" class="form-control"
+            [ngClass]="{ 'is-invalid': item.get('amount')?.touched && item.get('amount')?.invalid }"
+            placeholder="Enter amount"  (keypress)="allowOnlyNumbers($event)" maxlength="10" />
+          <!-- <div *ngIf="item.get('amount')?.touched && item.get('amount')?.invalid" class="invalid-feedback">
+            Please enter a valid amount.
+          </div> -->
+        </div>
+        <div class="col-md-2 text-end mt-3" *ngIf="i > 0">
+          <button type="button" (click)="removeItem(i)" class="btn btn-danger">-</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Row Button -->
+    <div class="text-end">
+     <!-- <span> Total Amount : </span><span class="me-3">{{totalamount | currency:'USD':'':'1.2-2'}}</span> -->
+      <button type="button" (click)="addItem()" class="btn btn-success">+</button>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="col-md-12 d-flex justify-content-end">
+    <button type="button" class="btn btn-danger me-3" *ngIf="invoiceId" (click)="cancelButton()">Cancel</button>
+    <button type="button" class="btn btn-primary me-3" (click)="resetForm()">Reset</button>
+    <button type="submit" class="btn btn-primary">{{ isEditForm ? 'Update' : 'Save' }} Invoice</button>
+  </div>
+</form>

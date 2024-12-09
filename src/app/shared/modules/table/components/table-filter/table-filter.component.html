@@ -1,0 +1,6 @@
+<tr>
+    <th *ngFor="let column of columns">
+        <app-filter-cell *ngIf="column.filterable" [column]="column"></app-filter-cell>
+    </th>
+
+</tr>

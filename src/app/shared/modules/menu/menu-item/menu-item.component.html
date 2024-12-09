@@ -1,0 +1,24 @@
+<ng-container *ngIf="item && getCallback(item.visible) !== false">
+  <!-- ITEM (MENU TYPE) -->
+  <!-- DEFAULT -->
+  <button
+    pButton
+    pRipple
+    pTooltip="{{ item.tooltip  }}"
+    (click)="onClick($event, context)"
+    [disabled]="getCallback(item.disabled)"
+    [tabindex]="item.tabIndex"
+    routerLinkActive="active"
+    [icon]="item.loading ? '' : getIcon(item.icon)"
+    [class.p-button-success]="item.color === 'primary'"
+    [class.p-button-warning]="item.color === 'warn'"
+    [class.p-button-danger]="item.color === 'danger'"
+    [class.p-button-raised]="item.raised"
+    [class.p-button-rounded]="item.type === menuItemType.ROUNDED"
+    [class.p-button-outlined]="item.type === menuItemType.OUTLINED"
+    label="{{ getLabel(item.label)  }}"
+    class="m-1"
+  >
+    <i *ngIf="item.loading" class="p-button-icon pi pi-spin pi-spinner mr-2"></i>
+  </button>
+</ng-container>

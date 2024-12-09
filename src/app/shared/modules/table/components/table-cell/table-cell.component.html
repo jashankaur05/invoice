@@ -1,0 +1,37 @@
+<!-- DATEANDTIME COLUMN -->
+<ng-container *ngIf="column?.type === columnType.DateAndTime">
+    {{ value | date: 'dd.MM.yyyy HH:mm' }}
+  </ng-container>
+  
+  <!-- DATE COLUMN -->
+  <ng-container *ngIf="column?.type === columnType.DateTime">
+    {{ value | date: 'dd.MM.yyyy' }}
+  </ng-container>
+  
+  <!-- NUMBER COLUMN -->
+  <ng-container *ngIf="column?.type === columnType.Number">
+    {{ value | number }}
+  </ng-container>
+  
+  <!-- BOOLEAN COLUMN -->
+  <ng-container *ngIf="column?.type === columnType.Boolean">
+    <ng-container *ngIf="value; else notEnglish">
+      <span class="pi pi-check english-yes"></span>
+    </ng-container>
+    <ng-template #notEnglish>
+      <span class="pi pi-times english-no"></span>
+    </ng-template>
+  </ng-container>
+  
+  <ng-container *ngIf="column?.type === columnType.Select">
+    {{ value }}
+  </ng-container>
+  
+  <ng-container *ngIf="column?.type === columnType.Tagged">
+    <p-tag [value]="value" [severity]="column?.tagOptions[value]"></p-tag>
+  </ng-container>
+  
+  <!-- DEFAULT COLUMN -->
+  <ng-container *ngIf="!column?.type || column?.type === columnType.Text">
+    {{ value | truncate }}
+  </ng-container>

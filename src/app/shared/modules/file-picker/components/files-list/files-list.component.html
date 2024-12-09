@@ -1,0 +1,36 @@
+<!-- Files List -->
+<ng-container *ngFor="let file of files; let i = index">
+    <div class="p-fileupload-files ng-star-inserted">
+        <div class="ng-star-inserted">
+            <div class="fileupload-row ng-star-inserted">
+                <div *ngIf="file.objectURL">
+                    <img
+                        [src]="file.objectURL"
+                        width="100"
+                        class="ng-star-inserted"
+                    />
+                </div>
+                <div class="p-fileupload-filename">
+                    {{ file.name | truncate : 30 }}
+                </div>
+                <div>{{ file.size }} bytes</div>
+                <div>
+                    <button
+                        type="button"
+                        icon="pi pi-times"
+                        pbutton=""
+                        class="p-element p-button p-component p-button-icon-only"
+                        ng-reflect-icon="pi pi-times"
+                        [style.margin-left.px]="380"
+                        (click)="removeFile($event, file)"
+                    >
+                        <span
+                            class="p-button-icon pi pi-times"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

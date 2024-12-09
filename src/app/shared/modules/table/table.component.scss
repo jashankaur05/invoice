@@ -1,0 +1,34 @@
+.select-control-column{
+    width: 2rem;
+}
+.action-icon {
+    font-size: 1.5rem; /* Adjust icon size */
+    margin-right: 10px; /* Space between icons */
+    cursor: pointer; /* Make the icon clickable */
+    transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+.action-icon:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+.disabled-icon {
+    color: #999; /* Gray out disabled icons */
+    pointer-events: none; /* Prevent clicks */
+}
+
+.pi-eye {
+    color: #17a2b8; /* Info color for view icon */
+}
+
+.pi-pen-to-square {
+    color: #28a745; /* Success color for edit icon */
+}
+
+.pi-lock {
+    color: #ffc107; /* Warning color for lock icon */
+}
+
+.pi-lock-open {
+    color: #dc3545; /* Danger color for unlock icon */
+}

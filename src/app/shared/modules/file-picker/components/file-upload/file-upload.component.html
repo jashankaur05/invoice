@@ -1,0 +1,49 @@
+<!-- file uploader -->
+<p-fileUpload
+    #fileUploader
+    name="demo[]"
+    [accept]="acceptedTypes"
+    [customUpload]="true"
+    [multiple]="multiple"
+    (onSelect)="handleFileUpload($event)"
+    [showUploadButton]="false"
+    [showCancelButton]="false"
+    [auto]="true"
+    class="w-full"
+    *ngIf="!uploadedFiles.length || multiple"
+>
+    <ng-template pTemplate="content">
+        <div
+            class="w-full py-3"
+            style="cursor: copy"
+            (click)="fileUploader.advancedFileInput.nativeElement.click()"
+        >
+            <div
+                class="h-full flex flex-column justify-content-center align-items-center"
+            >
+                <div class="text-wrapper">
+                    <div class="centered">
+                        <h3 class="drop-area-text">{{'modules.importIssues.dropFile' | translate}}</h3> <!-- {{ label }} -->
+                        <h3 class="drop-area-text">{{'modules.importIssues.or' | translate}}</h3>
+                        <label class="custom-file-upload">
+                            <span class="textLink">
+                                <i class="pi pi-upload"></i>{{'modules.importIssues.selectFile' | translate}}</span
+                            >
+                        </label>
+                        <h6 class="drop-area-warning">
+                            [Max: {{ maxFileSize | fileSize }} {{ maxFileSizeTitle }}]
+                        </h6>
+                        <h6 *ngIf="acceptedTypes" class="drop-area-warning">
+                            [{{'modules.importIssues.extensions' | translate}}: {{ acceptedTypes }}]
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-fileUpload>
+
+<app-files-list
+    [files]="uploadedFiles"
+    (deleteFile)="removeFile($event)"
+></app-files-list>

@@ -1,0 +1,102 @@
+/* You can add global styles to this file, and also import other style files */
+/**======================================================================
+=========================================================================
+Template Name: berry - Most Complete Bootstrap Admin Template
+Author: CodedThemes
+Support: https://codedthemes.support-hub.io/
+File: style.css
+=========================================================================
+=================================================================================== */
+
+// main framework
+// main framework
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/variables-dark';
+
+@import 'scss/settings/color-variables';
+@import 'scss/settings/theme-variables';
+@import 'scss/settings/bootstrap-variables.scss';
+
+@import 'scss/bootstrap/bootstrap.scss';
+
+@import 'node_modules/bootstrap/scss/utilities';
+@import 'node_modules/bootstrap/scss/utilities/api';
+
+// main framework
+@import 'scss/themes/generic.scss';
+@import 'scss/themes/general.scss';
+
+// Layouts
+@import 'scss/themes/layouts/layouts';
+
+// Componants
+@import 'scss/themes/components/components';
+
+// pages
+@import 'scss/themes/pages/page.scss';
+
+@import 'scss/themes/customizer';
+@import 'scss/style-preset.scss';
+
+// fonts
+@import url('scss/fonts/berry/berry-icons.css'); /** custom font icons - berry **/
+@import 'scss/fonts/tabler-icons.min.css';
+@import 'scss/fonts/phosphor/duotone/style.css';
+@import 'primeicons/primeicons.css';
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.p-stepper .p-stepper-header .p-stepper-action {
+  background-color: #eef2f6 !important;
+}
+.p-calendar {
+  input {
+    width: 734px; /* Make it take full width like other inputs */
+    padding: 0.375rem 0.75rem; /* Adjust padding to match other inputs */
+    height: calc(1.5em + 0.75rem + 2px); /* Adjust height */
+    font-size: 1rem; /* Match font size */
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+
+  button {
+    height: calc(1.5em + 0.75rem + 2px);
+  }
+}
+
+ul.p-dropdown-items {
+  display: block !important;
+  padding: 0 !important;
+}
+p-dropdown {
+
+  &>div.p-dropdown {
+    width: 100% !important;
+
+    &>span.p-dropdown-label {
+      padding: 0.375rem 0.75rem !important;
+    }
+  }
+}
+
+.is-invalid {
+  background: none !important;
+}
+.p-datatable .p-sortable-column.p-highlight {
+  background: none !important;
+  color: inherit !important;    
+}
+.p-datatable .p-sortable-column.p-highlight:hover {
+background: none !important;
+color: #1D4ED8;
+}

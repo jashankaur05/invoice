@@ -1,0 +1,21 @@
+<div
+  *ngIf="layout; else menuItems"
+  class="flex"
+  [class.flex-column]="layout === 'column'"
+  [class.flex-row]="layout === 'row'"
+  [style.width]="layout === 'column' ? '100%' : 'auto'"
+  [style.height]="layout === 'row' ? '100%' : 'auto'"
+  [class.flex-row-reverse]="layout === 'row' && layoutAlign === 'end'"
+  [class.flex-column-reverse]="layout === 'column' && layoutAlign === 'end'"
+  [class.justify-content-center]="layoutAlign === 'center'"
+>
+ <ng-container [ngTemplateOutlet]="menuItems"></ng-container>
+</div>
+<ng-template #menuItems>
+  <app-menu-item
+    *ngFor="let item of items"
+    [item]="item"
+    [type]="type"
+    [context]="context"
+  ></app-menu-item>
+</ng-template>

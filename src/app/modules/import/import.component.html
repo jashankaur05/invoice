@@ -1,0 +1,17 @@
+<app-file-upload [formControl]="importFC" (hasMoreFileCountOrSize)="handleFileSizeOrLimitError($event)"
+    [maxFileSize]="filePickerConfig.fileSizeLimit ?? 10" [maxFileCount]="filePickerConfig.fileLimit || null"
+    [multiple]="filePickerConfig.multiple || false"
+    [allowedExtensions]="filePickerConfig.allowedExtensions"></app-file-upload>
+<br />
+
+<div *ngIf="file && file.filename.length > 0" class="col-12 flex flex-column px-5">
+    <div class="flex justify-content-between mb-3">
+        <span class="text-900 font-semibold">Progress</span>&nbsp;
+        <span class="text-900 font-semibold">{{file.progress}}%</span>
+    </div>
+    <p-progressBar name="progress" [value]="file.progress" [showValue]="false"></p-progressBar>
+</div>
+
+<button pButton pRipple label="Upload File" icon="pi pi-upload"
+    class="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"
+    (click)="onUploadingFiles()"></button>
